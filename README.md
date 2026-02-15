@@ -69,8 +69,8 @@ A professional REST API automation framework built with **RestAssured**, **TestN
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/your-username/api-automation-framework.git
-cd api-automation-framework
+git clone https://github.com/FadyWaheed10/Online_API_Framework.git
+cd Online_API_Framework
 ```
 
 ### 2. Build the project
