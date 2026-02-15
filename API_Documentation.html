@@ -1,0 +1,1478 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Foodics Online API - Complete Documentation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.8;
+            color: #2c3e50;
+            background: linear-gradient(135deg, #fafafa 0%, #e8e8e8 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 50px 40px;
+            text-align: center;
+        }
+        
+        header h1 {
+            font-size: 3em;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        header .subtitle {
+            font-size: 1.3em;
+            opacity: 0.95;
+        }
+        
+        .how-to-open {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px 40px;
+            margin: 0;
+            font-size: 1.1em;
+        }
+        
+        .how-to-open strong {
+            color: #2e7d32;
+        }
+        
+        .content {
+            padding: 40px;
+        }
+        
+        h2 {
+            color: #667eea;
+            font-size: 2.2em;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h3 {
+            color: #764ba2;
+            font-size: 1.6em;
+            margin: 30px 0 15px 0;
+        }
+        
+        h4 {
+            color: #555;
+            font-size: 1.3em;
+            margin: 25px 0 10px 0;
+        }
+        
+        .persona-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 15px;
+            margin: 25px 0;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .persona-card p {
+            color: white;
+            font-weight: 500;
+            line-height: 1.8;
+        }
+        
+        .persona-card.customer {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+        }
+        
+        .persona-card.employee {
+            background: linear-gradient(135deg, #1565c0 0%, #1976d2 100%);
+        }
+        
+        .persona-card.admin {
+            background: linear-gradient(135deg, #7b1fa2 0%, #9c27b0 100%);
+        }
+        
+        .persona-card.guest {
+            background: linear-gradient(135deg, #f57c00 0%, #ff9800 100%);
+        }
+        
+        .persona-card.system {
+            background: linear-gradient(135deg, #424242 0%, #616161 100%);
+        }
+        
+        .persona-card h3 {
+            color: white;
+            margin-top: 0;
+            border: none;
+            font-size: 2em;
+        }
+        
+        .persona-card.system h3,
+        .persona-card.guest h3 {
+            color: white;
+        }
+        
+        .endpoint-list {
+            background: rgba(255,255,255,0.25);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        
+        .endpoint-item {
+            background: rgba(255,255,255,0.35);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border-left: 4px solid white;
+            color: #1a1a1a;
+        }
+        
+        .endpoint-item .method {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-right: 15px;
+            font-size: 0.9em;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        .method.get { background: #4caf50; }
+        .method.post { background: #2196f3; }
+        .method.put { background: #ff9800; }
+        .method.patch { background: #9c27b0; }
+        .method.delete { background: #f44336; }
+        
+        .endpoint-item .url {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            font-weight: 600;
+        }
+        
+        .endpoint-item .description {
+            margin-top: 8px;
+            opacity: 1;
+            font-size: 0.95em;
+            color: #2c3e50;
+            font-weight: 500;
+        }
+        
+        .endpoint-item .url {
+            color: #1a1a1a;
+            font-weight: 700;
+        }
+        
+        .dependency-flow {
+            background: #f8f9fa;
+            padding: 30px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border: 2px solid #e0e0e0;
+        }
+        
+        .flow-step {
+            display: inline-block;
+            background: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            margin: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            font-weight: 600;
+            color: #667eea;
+            vertical-align: middle;
+        }
+        
+        .arrow {
+            display: inline-block;
+            font-size: 2em;
+            color: #667eea;
+            margin: 0 5px;
+            vertical-align: middle;
+        }
+        
+        .diagram {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 25px 0;
+            border: 2px solid #e0e0e0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            line-height: 1.6;
+            overflow-x: auto;
+            white-space: pre;
+        }
+        
+        .info-box {
+            background: #e3f2fd;
+            border-left: 5px solid #2196f3;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .warning-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .success-box {
+            background: #e8f5e9;
+            border-left: 5px solid #4caf50;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        
+        .stats-box {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .stat-card {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .stat-card .number {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .stat-card .label {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+        
+        .toc {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 30px 0;
+        }
+        
+        .toc ul {
+            list-style: none;
+            padding-left: 0;
+            columns: 2;
+            column-gap: 30px;
+        }
+        
+        .toc li {
+            padding: 8px 0;
+            break-inside: avoid;
+        }
+        
+        .toc a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        
+        .toc a:hover {
+            text-decoration: underline;
+        }
+        
+        .dependency-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+        
+        .dependency-card {
+            background: white;
+            border: 2px solid #e0e0e0;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .dependency-card h4 {
+            color: #667eea;
+            margin-top: 0;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+        
+        .dependency-card ul {
+            list-style: none;
+            padding-left: 0;
+        }
+        
+        .dependency-card li {
+            padding: 8px 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        
+        .dependency-card li:last-child {
+            border-bottom: none;
+        }
+        
+        .dependency-card li:before {
+            content: "→ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 8px;
+        }
+        
+        @media print {
+            body {
+                background: white;
+            }
+            .how-to-open {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🍽️ Foodics Online API V1</h1>
+            <p class="subtitle">Complete API Documentation | 69 Endpoints | Persona-Based Organization</p>
+        </header>
+        
+        <div class="how-to-open">
+            <strong>📱 How to View:</strong> Simply double-click this file to open it in your web browser, or right-click and select "Open With" → your preferred browser.
+        </div>
+        
+        <div class="content">
+            <h2>📋 Table of Contents</h2>
+            <div class="toc">
+                <ul>
+                    <li><a href="#overview">API Overview</a></li>
+                    <li><a href="#personas">System Personas</a></li>
+                    <li><a href="#customer">Customer APIs</a></li>
+                    <li><a href="#employee">Employee APIs</a></li>
+                    <li><a href="#admin">Admin APIs</a></li>
+                    <li><a href="#guest">Guest APIs</a></li>
+                    <li><a href="#system">System APIs</a></li>
+                    <li><a href="#dependencies">API Dependencies</a></li>
+                    <li><a href="#flows">Business Flows</a></li>
+                    <li><a href="#reference">Quick Reference</a></li>
+                </ul>
+            </div>
+
+            <section id="overview">
+                <h2>🎯 API Overview</h2>
+                <div class="info-box">
+                    <p><strong>Base URL:</strong> <code>https://test-consumer-api.getsolo.io</code></p>
+                    <p><strong>API Version:</strong> V1</p>
+                    <p><strong>Response Format:</strong> JSON</p>
+                    <p>The Foodics Online API provides a comprehensive REST API for managing online ordering, customer management, menu operations, and business intelligence.</p>
+                </div>
+                
+                <div class="stats-box">
+                    <div class="stat-card">
+                        <div class="number">69</div>
+                        <div class="label">Total Endpoints</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">5</div>
+                        <div class="label">Personas</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="number">21</div>
+                        <div class="label">Modules</div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="personas">
+                <h2>👥 System Personas</h2>
+                <div class="info-box">
+                    <p>The Foodics API serves <strong>5 distinct personas</strong>, each with different access levels and capabilities:</p>
+                </div>
+                
+                <div class="persona-card customer">
+                    <h3>👤 Customer</h3>
+                    <p><strong>Who:</strong> End users placing orders, managing their accounts</p>
+                    <p><strong>Access:</strong> Public endpoints, no authentication required for most operations</p>
+                    <p><strong>Key Capabilities:</strong> Register, browse menu, place orders, track orders, manage addresses</p>
+                </div>
+                
+                <div class="persona-card employee">
+                    <h3>👨‍💼 Employee</h3>
+                    <p><strong>Who:</strong> Restaurant staff, delivery drivers, order handlers</p>
+                    <p><strong>Access:</strong> Requires Bearer token authentication</p>
+                    <p><strong>Key Capabilities:</strong> View orders, update order status, track deliveries, manage assigned tasks</p>
+                </div>
+                
+                <div class="persona-card admin">
+                    <h3>👑 Administrator</h3>
+                    <p><strong>Who:</strong> Restaurant owners, managers, business administrators</p>
+                    <p><strong>Access:</strong> Requires Bearer token + Solo-Concept header</p>
+                    <p><strong>Key Capabilities:</strong> Manage concepts, locations, menus, promotions, view reports, manage employees</p>
+                </div>
+                
+                <div class="persona-card guest">
+                    <h3>🎭 Guest</h3>
+                    <p><strong>Who:</strong> Temporary users, one-time visitors</p>
+                    <p><strong>Access:</strong> Limited public access</p>
+                    <p><strong>Key Capabilities:</strong> Browse menu, place orders without account</p>
+                </div>
+                
+                <div class="persona-card system">
+                    <h3>⚙️ System</h3>
+                    <p><strong>Who:</strong> External systems, integrations, license management</p>
+                    <p><strong>Access:</strong> API Key authentication</p>
+                    <p><strong>Key Capabilities:</strong> License management, system integrations</p>
+                </div>
+            </section>
+
+            <section id="customer">
+                <h2>👤 Customer APIs</h2>
+                <div class="persona-card customer">
+                    <h3>Customer Endpoints</h3>
+                    <p>These APIs allow customers to manage their accounts, place orders, and interact with the system.</p>
+                    
+                    <div class="endpoint-list">
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/customers</span>
+                            <div class="description">Create customer account or login via OTP (sends OTP to phone)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/customers/:customerId/verify</span>
+                            <div class="description">Verify OTP code sent to customer phone (returns customer token)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/resendsms</span>
+                            <div class="description">Resend OTP code to customer phone number</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method patch">PATCH</span>
+                            <span class="url">/customers/:customerId</span>
+                            <div class="description">Update customer profile information (name, email, etc.)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/menus</span>
+                            <div class="description">Browse available menus (can filter by concept or location)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/menus/:menuId/items</span>
+                            <div class="description">View menu items (can filter by category or loyalty rewards)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/locations</span>
+                            <div class="description">List available restaurant locations</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/customers/:customerId/addresses</span>
+                            <div class="description">Add delivery address for customer</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method patch">PATCH</span>
+                            <span class="url">/customers/:customerId/addresses/:addressId</span>
+                            <div class="description">Update customer address</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method delete">DELETE</span>
+                            <span class="url">/customers/:customerId/addresses/:addressId</span>
+                            <div class="description">Delete customer address</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/customers/:customerId/cars</span>
+                            <div class="description">Add vehicle information (for curbside pickup)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/customers/:customerId/cars</span>
+                            <div class="description">List customer vehicles</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/orders</span>
+                            <div class="description">Create a new order (returns order ID and token for payment)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/orders/:id</span>
+                            <div class="description">Get order details and status</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/promotions/validation</span>
+                            <div class="description">Validate order with promotions applied (returns discounted total)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/coupons</span>
+                            <div class="description">List available coupons</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/orders/:orderId/payments</span>
+                            <div class="description">Create payment for an order</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/payments/orders/ordertoken</span>
+                            <div class="description">Get payment details by order token</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/orders/:id/employees</span>
+                            <div class="description">Get driver/employee assigned to order for tracking</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/customers/:customerId/orders</span>
+                            <div class="description">Get order history for a customer</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method patch">PATCH</span>
+                            <span class="url">/orders/:id/cancellation</span>
+                            <div class="description">Cancel an existing order</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/cms/pages</span>
+                            <div class="description">Get CMS pages (About, Terms, Privacy, etc.)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/cms/sliders</span>
+                            <div class="description">Get homepage banner sliders</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/cms/sliders/:slider_id/slides</span>
+                            <div class="description">Get slides for a specific slider</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/feedback</span>
+                            <div class="description">Submit customer feedback about order or service</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="employee">
+                <h2>👨‍💼 Employee APIs</h2>
+                <div class="persona-card employee">
+                    <h3>Employee Endpoints</h3>
+                    <p>These APIs require Bearer token authentication. Employees use these to manage orders and deliveries.</p>
+                    
+                    <div class="endpoint-list">
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/login</span>
+                            <div class="description">Employee login (returns token and concept keys)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/whoami</span>
+                            <div class="description">Get current employee information (requires Solo-Concept header)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/forgot-password/employee</span>
+                            <div class="description">Request password reset for employee account</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/logout</span>
+                            <div class="description">Logout current employee session</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/employees/:id/bearings</span>
+                            <div class="description">Update driver/employee location for order tracking</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/orders/:id</span>
+                            <div class="description">View order details</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/orders/:id/employees</span>
+                            <div class="description">Get driver details for an order</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="admin">
+                <h2>👑 Administrator APIs</h2>
+                <div class="persona-card admin">
+                    <h3>Administrator Endpoints</h3>
+                    <p>These APIs require Bearer token + Solo-Concept header. Admins use these to manage the business.</p>
+                    
+                    <div class="endpoint-list">
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/login</span>
+                            <div class="description">Admin login (returns token and concept keys)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/whoami</span>
+                            <div class="description">Get admin information and all accessible concepts</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/customers</span>
+                            <div class="description">List all customers (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/customers/:customerId</span>
+                            <div class="description">Get customer details (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method delete">DELETE</span>
+                            <span class="url">/customers</span>
+                            <div class="description">Delete customer account (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/customers/:customerId/addresses</span>
+                            <div class="description">List all addresses for a customer (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/promotions</span>
+                            <div class="description">Create a new promotion (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/promotions</span>
+                            <div class="description">List all available promotions</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/locations</span>
+                            <div class="description">Create a new restaurant location</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/register</span>
+                            <div class="description">Register a new restaurant concept</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method patch">PATCH</span>
+                            <span class="url">/concepts/:id</span>
+                            <div class="description">Update concept information (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/concepts/:id</span>
+                            <div class="description">Get specific concept by ID</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method put">PUT</span>
+                            <span class="url">/applications/:applicationId/themes</span>
+                            <div class="description">Update application theme (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/applications</span>
+                            <div class="description">Get application configuration</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/reports/top-performing-products</span>
+                            <div class="description">Get top performing products report</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method patch">PATCH</span>
+                            <span class="url">/employees/:id</span>
+                            <div class="description">Update employee information (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/countries</span>
+                            <div class="description">Get list of countries (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/clients</span>
+                            <div class="description">List all clients (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method patch">PATCH</span>
+                            <span class="url">/api/devices/enable-maintenance-mode</span>
+                            <div class="description">Enable or disable maintenance mode for devices (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/segments</span>
+                            <div class="description">List customer segments (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/push-notifications</span>
+                            <div class="description">Send push notification to customers (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/push-notifications</span>
+                            <div class="description">List all push notifications (requires auth + Solo-Concept)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/orders/validate</span>
+                            <div class="description">Validate order before creation - old method (requires auth + Solo-Concept)</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="guest">
+                <h2>🎭 Guest APIs</h2>
+                <div class="persona-card guest">
+                    <h3>Guest Endpoints</h3>
+                    <p>These APIs allow temporary access without creating an account.</p>
+                    
+                    <div class="endpoint-list">
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/login/guest</span>
+                            <div class="description">Guest login for temporary access (requires Solo-App header)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/menus</span>
+                            <div class="description">Browse available menus</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/menus/:menuId/items</span>
+                            <div class="description">View menu items</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/orders</span>
+                            <div class="description">Create order without account</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="system">
+                <h2>⚙️ System APIs</h2>
+                <div class="persona-card system">
+                    <h3>System Endpoints</h3>
+                    <p>These APIs are used by external systems and integrations, requiring API Key authentication.</p>
+                    
+                    <div class="endpoint-list">
+                        <div class="endpoint-item">
+                            <span class="method post">POST</span>
+                            <span class="url">/licenses/foodics</span>
+                            <div class="description">Create a new license (requires API key in X-API-Key header)</div>
+                        </div>
+                        
+                        <div class="endpoint-item">
+                            <span class="method get">GET</span>
+                            <span class="url">/licenses/foodics/:id</span>
+                            <div class="description">Get license details by ID (requires API key)</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="dependencies">
+                <h2>🔗 API Dependencies & Relationships</h2>
+                <div class="info-box">
+                    <p>Understanding how APIs depend on each other is crucial for building workflows. Below are visual diagrams showing the key relationships:</p>
+                </div>
+                
+                <h3>🔐 Authentication Flow</h3>
+                <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│              AUTHENTICATION DEPENDENCY FLOW                  │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────────┐
+│   POST       │
+│   /login     │ (Employee/Admin credentials)
+└──────┬───────┘
+       │
+       │ Returns: { token, concepts[] }
+       │
+       ▼
+┌──────────────┐
+│ Extract      │
+│ Token        │
+└──────┬───────┘
+       │
+       │ Use token in header: Authorization: Bearer {token}
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /whoami    │ (Requires: Bearer Token + Solo-Concept)
+└──────┬───────┘
+       │
+       │ Returns: { employee info, concept keys }
+       │
+       ▼
+┌──────────────┐
+│ Extract      │
+│ Concept Key  │
+└──────┬───────┘
+       │
+       │ Use concept key in header: Solo-Concept: {key}
+       │
+       ▼
+┌──────────────┐
+│ All Admin    │
+│ APIs         │ (Require: Bearer Token + Solo-Concept)
+└──────────────┘</div>
+                
+                <h3>👤 Customer Registration & Setup Flow</h3>
+                <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│         CUSTOMER REGISTRATION DEPENDENCY FLOW                │
+└─────────────────────────────────────────────────────────────┘
+
+Step 1: Create Account
+┌──────────────┐
+│   POST       │
+│   /customers │ (Phone number)
+└──────┬───────┘
+       │
+       │ Returns: { customerId }
+       │
+       ▼
+Step 2: Verify OTP
+┌──────────────┐
+│   POST       │
+│   /customers │
+│   /:id/verify│ (OTP code)
+└──────┬───────┘
+       │
+       │ Returns: { customerToken }
+       │
+       ▼
+Step 3: Update Profile
+┌──────────────┐
+│   PATCH      │
+│   /customers │
+│   /:id      │ (Name, email, etc.)
+└──────┬───────┘
+       │
+       ▼
+Step 4: Add Address
+┌──────────────┐
+│   POST       │
+│   /customers │
+│   /:id/      │
+│   addresses  │ (Delivery address)
+└──────┬───────┘
+       │
+       ▼
+Step 5: Ready to Order
+┌──────────────┐
+│ Can now use: │
+│ - GET /menus │
+│ - POST /orders│
+│ - etc.       │
+└──────────────┘</div>
+                
+                <h3>🛒 Complete Order Processing Flow</h3>
+                <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│           ORDER PROCESSING DEPENDENCY FLOW                   │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────────┐
+│   GET        │
+│   /menus     │ (Browse available menus)
+└──────┬───────┘
+       │
+       │ Returns: { menus[] }
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /menus/    │
+│   :menuId/   │
+│   items      │ (View menu items)
+└──────┬───────┘
+       │
+       │ Returns: { items[] }
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /coupons   │ (Optional: Check available coupons)
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│   POST       │
+│   /promotions│
+│   /validation│ (Validate order with promotions)
+└──────┬───────┘
+       │
+       │ Returns: { validated, total, discounts[] }
+       │
+       ▼
+┌──────────────┐
+│   POST       │
+│   /orders    │ (Create order with items)
+└──────┬───────┘
+       │
+       │ Returns: { orderId, orderToken }
+       │
+       ▼
+┌──────────────┐
+│   POST       │
+│   /orders/   │
+│   :orderId/  │
+│   payments   │ (Process payment)
+└──────┬───────┘
+       │
+       │ Returns: { paymentId, status }
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /orders/:id│ (Track order status)
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /orders/:id│
+│   /employees │ (Track driver location)
+└──────────────┘</div>
+                
+                <h3>👨‍💼 Employee Order Management Flow</h3>
+                <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│        EMPLOYEE ORDER MANAGEMENT DEPENDENCY FLOW            │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────────┐
+│   POST       │
+│   /login     │ (Employee credentials)
+└──────┬───────┘
+       │
+       │ Returns: { token, concepts[] }
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /whoami    │ (Get employee info + concept key)
+└──────┬───────┘
+       │
+       │ Returns: { employee, conceptKey }
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /orders/:id│ (View order details)
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│   POST       │
+│   /employees │
+│   /:id/      │
+│   bearings   │ (Update driver location)
+└──────┬───────┘
+       │
+       │ (Real-time tracking)
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /orders/:id│
+│   /employees │ (View assigned driver)
+└──────────────┘</div>
+                
+                <h3>👑 Admin Business Management Flow</h3>
+                <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│        ADMIN BUSINESS MANAGEMENT DEPENDENCY FLOW            │
+└─────────────────────────────────────────────────────────────┘
+
+┌──────────────┐
+│   POST       │
+│   /login     │ (Admin credentials)
+└──────┬───────┘
+       │
+       │ Returns: { token, all concepts[] }
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /whoami    │ (Get admin info + all concept keys)
+└──────┬───────┘
+       │
+       │ Extract concept keys
+       │
+       ▼
+┌──────────────┐
+│   PATCH      │
+│   /concepts/ │
+│   :id        │ (Manage concept settings)
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│   POST       │
+│   /locations │ (Create/manage locations)
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│   POST       │
+│   /promotions│ (Create promotions)
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│   GET        │
+│   /reports/  │
+│   top-       │
+│   performing │
+│   -products  │ (View business analytics)
+└──────────────┘</div>
+                
+                <h3>🔗 API Relationship Map</h3>
+                <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│              API RELATIONSHIP MAP                            │
+└─────────────────────────────────────────────────────────────┘
+
+                    ┌──────────────┐
+                    │   AUTH       │
+                    │   APIs       │
+                    │              │
+                    │ POST /login  │
+                    │ GET /whoami  │
+                    └──────┬───────┘
+                           │
+        ┌──────────────────┼──────────────────┐
+        │                  │                  │
+        ▼                  ▼                  ▼
+┌──────────────┐   ┌──────────────┐   ┌──────────────┐
+│  CUSTOMER    │   │   EMPLOYEE   │   │    ADMIN     │
+│  APIs        │   │   APIs       │   │   APIs       │
+│              │   │              │   │              │
+│ POST /customers│  │ POST /login  │   │ POST /login  │
+│ GET /menus   │   │ GET /whoami  │   │ GET /whoami  │
+│ POST /orders │   │ GET /orders  │   │ PATCH /concepts│
+│ GET /orders  │   │ POST /employees│ │ POST /promotions│
+└──────┬───────┘   │   /bearings  │   │ GET /reports │
+       │            └──────────────┘   └──────────────┘
+       │
+       │
+       ▼
+┌──────────────┐
+│   ORDER      │
+│   APIs       │
+│              │
+│ POST /orders │
+│ GET /orders  │
+│ POST /orders │
+│   /:id/      │
+│   payments   │
+└──────┬───────┘
+       │
+       │ Depends on:
+       │ - Customer APIs (who created order)
+       │ - Menu APIs (what items in order)
+       │ - Payment APIs (payment processing)
+       │ - Employee APIs (who delivers)
+       │
+       ▼
+┌──────────────┐
+│   PAYMENT    │
+│   APIs       │
+│              │
+│ POST /orders │
+│   /:id/      │
+│   payments   │
+│ GET /payments│
+│   /orders/   │
+│   ordertoken │
+└──────────────┘</div>
+                
+                <h3>📊 Module Dependency Hierarchy</h3>
+                <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│           MODULE DEPENDENCY HIERARCHY                        │
+└─────────────────────────────────────────────────────────────┘
+
+Level 1: Foundation (No Dependencies)
+┌──────────────┐
+│   AUTH       │ ──> Provides tokens for all
+│   MODULE     │     other modules
+└──────────────┘
+
+Level 2: Core Business (Depends on Level 1)
+┌──────────────┐
+│  CUSTOMER    │ ──> Depends on: Auth (for OTP)
+│  MODULE      │
+└──────────────┘
+┌──────────────┐
+│   MENU       │ ──> No dependencies (public)
+│   MODULE     │
+└──────────────┘
+┌──────────────┐
+│  LOCATION    │ ──> No dependencies (public)
+│   MODULE     │
+└──────────────┘
+
+Level 3: Transactions (Depends on Level 2)
+┌──────────────┐
+│   ORDER      │ ──> Depends on:
+│   MODULE     │     - Customer (who orders)
+│              │     - Menu (what items)
+│              │     - Location (where to deliver)
+└──────────────┘
+┌──────────────┐
+│   PAYMENT    │ ──> Depends on:
+│   MODULE     │     - Order (what to pay for)
+└──────────────┘
+┌──────────────┐
+│  PROMOTION   │ ──> Depends on:
+│   MODULE     │     - Order (applied to orders)
+└──────────────┘
+
+Level 4: Management (Depends on Level 2 & 3)
+┌──────────────┐
+│  EMPLOYEE    │ ──> Depends on:
+│   MODULE     │     - Auth (login)
+│              │     - Order (manages orders)
+└──────────────┘
+┌──────────────┐
+│   REPORT     │ ──> Depends on:
+│   MODULE     │     - Order (analyzes orders)
+│              │     - Menu (ranks products)
+└──────────────┘
+
+Level 5: Business Logic (Depends on Multiple Levels)
+┌──────────────┐
+│   CONCEPT    │ ──> Central entity:
+│   MODULE     │     - Has Locations
+│              │     - Has Menus
+│              │     - Has Employees
+│              │     - Receives Orders
+└──────────────┘</div>
+                
+                <h3>📋 Dependency Summary Cards</h3>
+                <div class="dependency-map">
+                    <div class="dependency-card">
+                        <h4>Customer APIs Depend On</h4>
+                        <ul>
+                            <li>No dependencies (public endpoints)</li>
+                            <li>OTP verification → Customer creation</li>
+                            <li>Order creation → Menu browsing</li>
+                            <li>Payment → Order creation</li>
+                            <li>Address management → Customer account</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dependency-card">
+                        <h4>Employee APIs Depend On</h4>
+                        <ul>
+                            <li>All operations → Login endpoint</li>
+                            <li>WhoAmI → Login token</li>
+                            <li>Order management → Employee token</li>
+                            <li>Location updates → Employee ID</li>
+                            <li>Order tracking → Order ID</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dependency-card">
+                        <h4>Admin APIs Depend On</h4>
+                        <ul>
+                            <li>All operations → Login endpoint</li>
+                            <li>WhoAmI → Get concept keys</li>
+                            <li>All admin ops → Concept key</li>
+                            <li>Reports → Order data</li>
+                            <li>Promotions → Concept key</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="dependency-card">
+                        <h4>System APIs Depend On</h4>
+                        <ul>
+                            <li>License creation → API Key</li>
+                            <li>License retrieval → API Key</li>
+                            <li>No other dependencies</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <h3>🔄 Cross-Module Relationships</h3>
+                <div class="diagram">┌─────────────────────────────────────────────────────────────┐
+│           CROSS-MODULE API RELATIONSHIPS                     │
+└─────────────────────────────────────────────────────────────┘
+
+Customer Module
+    │
+    ├──> Creates Order ──> Order Module
+    │                        │
+    │                        ├──> Uses Menu Items ──> Menu Module
+    │                        │
+    │                        ├──> Applies Promotions ──> Promotion Module
+    │                        │
+    │                        ├──> Requires Payment ──> Payment Module
+    │                        │
+    │                        └──> Assigned to Employee ──> Employee Module
+    │
+    ├──> Has Addresses ──> Location Module (for delivery)
+    │
+    └──> Belongs to Concept ──> Concept Module
+
+Order Module (Central Hub)
+    │
+    ├──> Contains Items ──> Menu Module
+    │
+    ├──> Has Payment ──> Payment Module
+    │
+    ├──> Applies Promotions ──> Promotion Module
+    │
+    ├──> Belongs to Customer ──> Customer Module
+    │
+    ├──> Assigned to Employee ──> Employee Module
+    │
+    └──> Delivered to Location ──> Location Module
+
+Concept Module (Business Entity)
+    │
+    ├──> Has Locations ──> Location Module
+    │
+    ├──> Has Menus ──> Menu Module
+    │
+    ├──> Has Employees ──> Employee Module
+    │
+    ├──> Serves Customers ──> Customer Module
+    │
+    └──> Receives Orders ──> Order Module</div>
+            </section>
+
+            <section id="flows">
+                <h2>🔄 Business Flows</h2>
+                
+                <h3>Customer Journey: First Order</h3>
+                <div class="diagram">Step 1: Register
+POST /customers (with phone number)
+    ↓
+    Returns: customerId
+    ↓
+Step 2: Verify OTP
+POST /customers/:customerId/verify (with OTP code)
+    ↓
+    Returns: customer token
+    ↓
+Step 3: Add Address
+POST /customers/:customerId/addresses
+    ↓
+    Address saved
+    ↓
+Step 4: Browse Menu
+GET /menus
+GET /menus/:menuId/items
+    ↓
+    Menu displayed
+    ↓
+Step 5: Create Order
+POST /orders
+    ↓
+    Order created, returns orderId and orderToken
+    ↓
+Step 6: Validate Promotions
+POST /promotions/validation
+    ↓
+    Discounts applied
+    ↓
+Step 7: Process Payment
+POST /orders/:orderId/payments
+    ↓
+    Payment processed
+    ↓
+Step 8: Track Order
+GET /orders/:id
+GET /orders/:id/employees (to see driver)</div>
+
+                <h3>Employee Workflow: Manage Order</h3>
+                <div class="diagram">Step 1: Login
+POST /login (username, password)
+    ↓
+    Returns: employee token + concept keys
+    ↓
+Step 2: Get Identity
+GET /whoami (with Solo-Concept header)
+    ↓
+    Returns: employee info + concepts
+    ↓
+Step 3: View Orders
+GET /orders/:id
+    ↓
+    Order details displayed
+    ↓
+Step 4: Update Location (if driver)
+POST /employees/:id/bearings (latitude, longitude)
+    ↓
+    Driver location updated
+    ↓
+Step 5: Cancel Order (if needed)
+PATCH /orders/:id/cancellation</div>
+
+                <h3>Admin Workflow: Manage Business</h3>
+                <div class="diagram">Step 1: Login
+POST /login (admin credentials)
+    ↓
+    Returns: admin token + all concept keys
+    ↓
+Step 2: Get Identity
+GET /whoami
+    ↓
+    Returns: admin info + all concepts
+    ↓
+Step 3: Manage Concepts
+PATCH /concepts/:id (update concept)
+    ↓
+Step 4: Manage Locations
+POST /locations (create location)
+    ↓
+Step 5: Manage Promotions
+POST /promotions (create promotion)
+    ↓
+Step 6: View Reports
+GET /reports/top-performing-products</div>
+            </section>
+
+            <section id="reference">
+                <h2>📝 Quick Reference</h2>
+                
+                <h3>Authentication Requirements</h3>
+                <div class="success-box">
+                    <p><strong>No Authentication:</strong> Customer-facing endpoints (create customer, browse menu, create order)</p>
+                    <p><strong>Bearer Token:</strong> Employee endpoints (login required)</p>
+                    <p><strong>Bearer Token + Solo-Concept Header:</strong> Admin endpoints (login + concept key required)</p>
+                    <p><strong>API Key (X-API-Key Header):</strong> System endpoints (license management)</p>
+                </div>
+                
+                <h3>Common Headers</h3>
+                <div class="info-box">
+                    <ul>
+                        <li><strong>Authorization:</strong> Bearer {token} - For authenticated endpoints</li>
+                        <li><strong>Solo-Concept:</strong> {conceptKey} - For concept-specific operations</li>
+                        <li><strong>Solo-App:</strong> {appKey} - For guest login and some endpoints</li>
+                        <li><strong>X-API-Key:</strong> {apiKey} - For system/license endpoints</li>
+                        <li><strong>Content-Type:</strong> application/json - For POST/PATCH/PUT requests</li>
+                        <li><strong>Accept:</strong> application/json - For GET requests</li>
+                    </ul>
+                </div>
+                
+                <h3>Base URL</h3>
+                <div class="warning-box">
+                    <p><code>https://test-consumer-api.getsolo.io</code></p>
+                    <p>All endpoints are relative to this base URL.</p>
+                </div>
+            </section>
+
+            <section>
+                <h2>🎉 Summary</h2>
+                <div class="success-box">
+                    <p>The Foodics Online API V1 provides a complete solution organized by personas:</p>
+                    <ul>
+                        <li>✅ <strong>Customer APIs</strong> - 24 endpoints for customer operations</li>
+                        <li>✅ <strong>Employee APIs</strong> - 7 endpoints for staff operations</li>
+                        <li>✅ <strong>Admin APIs</strong> - 23 endpoints for business management</li>
+                        <li>✅ <strong>Guest APIs</strong> - 4 endpoints for temporary access</li>
+                        <li>✅ <strong>System APIs</strong> - 2 endpoints for integrations</li>
+                    </ul>
+                    <p><strong>Total: 69 endpoints across 5 personas and 21 modules</strong></p>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
